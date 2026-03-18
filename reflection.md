@@ -8,6 +8,36 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - List at least two concrete bugs you noticed at the start  
   (for example: "the secret number kept changing" or "the hints were backwards").
 
+- Bug: Secret number type flipped between int and str on alternating attempts.
+  - Expected: The secret number should remain a numeric value (int) for the
+    whole game so numeric comparisons behave predictably.
+  - Actual: On every even attempt the code converts the secret to a string
+    (so comparisons fall back to lexicographic string comparison). This
+    produced surprising results like `9` comparing greater than `10` and
+    caused the `TypeError` fallback branch to run intermittently.
+
+- Bug: Hint messages are inverted relative to the outcome labels.
+  - Expected: When the outcome is "Too High" the hint should instruct the
+    player to go lower, and when "Too Low" the hint should instruct them to
+    go higher.
+  - Actual: The app returns "Too High" paired with the message "📈 Go HIGHER!"
+    and "Too Low" with "📉 Go LOWER!", which is misleading and actively
+    contradicts the outcome label.
+
+- Bug: Difficulty range and new-game behavior are inconsistent.
+  - Expected: The displayed range, the secret generation, and the new-game
+    action should all respect the difficulty selected via `get_range_for_difficulty`.
+  - Actual: The info text always says "between 1 and 100", and the New Game
+    button creates a secret with `random.randint(1, 100)` regardless of the
+    chosen difficulty, so the secret's range can mismatch the selected difficulty.
+
+- Bug: `attempts` initialization is inconsistent between first load and new-game.
+  - Expected: The attempt counter should have a single consistent starting
+    value (usually 0 or 1) and behave predictably after starting a new game.
+  - Actual: On first load `attempts` is initialized to `1`, but the New Game
+    button sets `attempts = 0`, creating off-by-one confusion in UI text and
+    scoring that depends on attempt parity.
+
 ---
 
 ## 2. How did you use AI as a teammate?
