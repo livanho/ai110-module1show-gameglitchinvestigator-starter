@@ -93,6 +93,7 @@ if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
 if "attempts" not in st.session_state:
+    # FIX ME : First-load attempts starts at 1, but New Game resets to 0 below.
     st.session_state.attempts = 1
 
 if "score" not in st.session_state:
@@ -132,6 +133,7 @@ with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
 if new_game:
+    # FIX ME: New Game resets attempts to 0, inconsistent with first-load init above.
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(1, 100)
     st.success("New game started.")
