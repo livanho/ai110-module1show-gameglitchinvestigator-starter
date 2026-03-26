@@ -6,17 +6,17 @@ from logic_utils import check_guess
 def test_winning_guess():
     # If the secret is 50 and guess is 50, it should be a win
     result = check_guess(50, 50)
-    assert result == "Win"
+    assert result[0] == "Win"
 
 def test_guess_too_high():
     # If secret is 50 and guess is 60, hint should be "Too High"
     result = check_guess(60, 50)
-    assert result == "Too High"
+    assert result[0] == "Too High"
 
 def test_guess_too_low():
     # If secret is 50 and guess is 40, hint should be "Too Low"
     result = check_guess(40, 50)
-    assert result == "Too Low"
+    assert result[0] == "Too Low"
 
 
 def test_attempts_initialization_consistent_with_new_game():
@@ -59,8 +59,8 @@ def test_attempts_initialization_consistent_with_new_game():
 
 def test_hint_messages_match_outcome_labels_in_check_guess():
     """Regression test: Too High must say LOWER, Too Low must say HIGHER."""
-    app_path = Path(__file__).resolve().parents[1] / "app.py"
-    tree = ast.parse(app_path.read_text(encoding="utf-8"))
+    logic_utils_path = Path(__file__).resolve().parents[1] / "logic_utils.py"
+    tree = ast.parse(logic_utils_path.read_text(encoding="utf-8"))
 
     too_high_has_lower_hint = False
     too_low_has_higher_hint = False
